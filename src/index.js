@@ -3,10 +3,6 @@
 import menuItems from './menu.json';
 import menuItemsFeed from './tmpl.hbs';
 import './styles.css';
-// -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
-// const smth = { menuItems: menuItems };
-// const markup = menuItemsFeed(menuItems[0])
-// -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
 
 const Theme = {
   LIGHT: 'light-theme',
@@ -26,21 +22,30 @@ function builder(menuItems) {
   refs.menuItems.insertAdjacentHTML('afterbegin', markup);
 }
 
-// -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
-
 refs.themeSwitcher.addEventListener('change', themeChange);
 
 function themeChange() {
-  if (refs.themeSwitcher.checked) {
-    refs.bodyElement.classList.toggle(Theme.LIGHT);
-    refs.bodyElement.classList.toggle(Theme.DARK);
+  if (!refs.themeSwitcher.checked) {
+    refs.bodyElement.classList.remove(Theme.DARK);
+    refs.bodyElement.classList.add(Theme.LIGHT);
+    localStorage.setItem('theme', Theme.LIGHT);
   } else {
-    refs.bodyElement.classList.toggle(Theme.LIGHT);
-    refs.bodyElement.classList.toggle(Theme.DARK);
+    refs.bodyElement.classList.remove(Theme.LIGHT);
+    refs.bodyElement.classList.add(Theme.DARK);
+    localStorage.setItem('theme', Theme.DARK);
   }
 }
 
-// -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+smth();
 
-// const source = document.querySelector('#hiddenHtml').innerHTML.trim();
-// const template = Handlebars.compile(source);
+function smth() {
+  if (localStorage.getItem('theme') === Theme.DARK) {
+    refs.themeSwitcher.checked = true;
+    refs.bodyElement.classList.remove(Theme.LIGHT);
+    refs.bodyElement.classList.add(Theme.DARK);
+  } else {
+    refs.themeSwitcher.checked = false;
+    refs.bodyElement.classList.remove(Theme.DARK);
+    refs.bodyElement.classList.add(Theme.LIGHT);
+  }
+}
